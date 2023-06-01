@@ -3,6 +3,7 @@ package andrey.library.books.model;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class Author {
     @Column(name = "last_name")
     String lastName;
 
+    @ToString.Exclude
     @ManyToMany(mappedBy = "authors")
     List<Book> books;
 }
