@@ -17,8 +17,8 @@ public class ApiExceptionHandlerController extends ResponseEntityExceptionHandle
         return new ResponseEntity<>(apiErrorMessageResponse, apiException.getHttpStatus());
     }
 
-    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     @ExceptionHandler({Exception.class})
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     public ApiErrorMessageResponse commonHandler(Exception e) {
         return new ApiErrorMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }

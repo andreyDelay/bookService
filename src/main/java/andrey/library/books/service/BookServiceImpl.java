@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BookServiceImpl implements BookService {
 
@@ -38,8 +39,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    //Без @Transactional падало с ошибкой No EntityManager with actual transaction available for current thread -
-    //cannot reliably process 'remove' call
     public void deleteByTitle(String title) {
         booksRepository.deleteByTitle(title);
     }
