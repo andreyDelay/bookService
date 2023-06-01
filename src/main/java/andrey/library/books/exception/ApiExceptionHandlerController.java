@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class ApiExceptionHandlerController extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({BookNotFoundException.class})
+    @ExceptionHandler({ApiException.class})
     public ResponseEntity<ApiErrorMessageResponse> handleBookErrors(ApiException apiException) {
         ApiErrorMessageResponse apiErrorMessageResponse =
                 new ApiErrorMessageResponse(apiException.getCode(), apiException.getMessage());
