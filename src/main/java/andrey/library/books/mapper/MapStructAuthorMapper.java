@@ -4,12 +4,10 @@ import andrey.library.books.dto.AuthorDto;
 import andrey.library.books.model.Author;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
 
-@Mapper
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface MapStructAuthorMapper {
-
-    MapStructAuthorMapper MAPPER = Mappers.getMapper(MapStructAuthorMapper.class);
 
     Author toAuthor(AuthorDto authorDto);
 
