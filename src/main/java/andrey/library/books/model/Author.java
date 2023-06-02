@@ -3,6 +3,7 @@ package andrey.library.books.model;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
@@ -26,6 +27,7 @@ public class Author {
     String lastName;
 
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "authors")
     List<Book> books;
 }

@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -24,11 +24,11 @@ public class Book {
     @Column(name = "quantity_in_stock")
     Integer quantityInStock;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade  = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "book_author",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
-    List<Author> authors;
+    Set<Author> authors;
 
 }
