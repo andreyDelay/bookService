@@ -26,10 +26,6 @@ databaseChangeLog:
             baseColumnNames: book_id
             baseTableName: book_author
             constraintName: fk_book_id
-            deferrable: true
-            initiallyDeferred: true
-            onDelete: CASCADE
-            onUpdate: RESTRICT
             referencedColumnNames: id
             referencedTableName: books
             validate: true
@@ -37,10 +33,6 @@ databaseChangeLog:
             baseColumnNames: author_id
             baseTableName: book_author
             constraintName: fk_author_id
-            deferrable: true
-            initiallyDeferred: true
-            onDelete: CASCADE
-            onUpdate: RESTRICT
             referencedColumnNames: id
             referencedTableName: authors
             validate: true
