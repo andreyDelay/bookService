@@ -3,7 +3,9 @@ package andrey.library.books.service;
 import andrey.library.books.dto.BookDto;
 import andrey.library.books.exception.BookNotFoundException;
 import andrey.library.books.mapper.MapStructBookMapper;
+import andrey.library.books.model.Author;
 import andrey.library.books.model.Book;
+import andrey.library.books.repository.AuthorRepository;
 import andrey.library.books.repository.BooksRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +13,10 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,12 +26,22 @@ public class BookServiceImpl implements BookService {
 
     BooksRepository booksRepository;
     MapStructBookMapper bookMapper;
+    AuthorRepository authorRepository;
 
     @Override
     @Transactional
     public BookDto save(BookDto bookDto) {
-        Book bookToSave = booksRepository.save(bookMapper.toBook(bookDto));
-        return Optional.ofNullable(bookMapper.fromBook(bookToSave))
+        Book bookToSave = bookMapper.toBook(bookDto);
+        Set<Author> existingAuthors = bookToSave.getAuthors().stream()
+                .map(author ->
+                        authorRepository.findByFirstNameAndLastName(
+                                author.getFirstName(),
+                                author.getLastName()))
+                .collect(Collectors.toSet());
+        existingAuthors.addAll(bookToSave.getAuthors());
+        bookToSave.setAuthors(existingAuthors);
+
+        return Optional.ofNullable(bookMapper.fromBook(booksRepository.save(bookToSave)))
                         .orElseThrow(() -> new RuntimeException("Couldn't save book."));
     }
 
