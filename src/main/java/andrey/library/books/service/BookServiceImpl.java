@@ -14,7 +14,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,10 +31,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto save(BookDto bookDto) {
-        booksRepository.findByTitle(bookDto.getTitle()).ifPresent(book -> {
-            throw new BookAlreadyExistsException(
-                    String.format("Book title already exists. Title: %s", bookDto.getTitle()));
-        });
+        throwExceptionIfBookExists(bookDto.getTitle());
         Book bookToSave = bookMapper.toBook(bookDto);
         Set<Author> existingAuthors = bookToSave.getAuthors().stream()
                 .map(author ->
@@ -62,7 +58,15 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void deleteByTitle(String title) {
+        throwExceptionIfBookExists(title);
         booksRepository.deleteByTitle(title);
+    }
+
+    private void throwExceptionIfBookExists(String title) {
+        booksRepository.findByTitle(title).ifPresent(book -> {
+            throw new BookAlreadyExistsException(
+                    String.format("Book title already exists. Title: %s", title));
+        });
     }
 
 }
