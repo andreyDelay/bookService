@@ -3,6 +3,8 @@ package andrey.library.books.repository;
 import andrey.library.books.model.Author;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 public interface AuthorRepository extends CrudRepository<Author, Long> {
-    Author findByFirstNameAndLastName(String firstName, String lastName);
+    Optional<Author> findByFirstNameAndLastName(String firstName, String lastName);
 }

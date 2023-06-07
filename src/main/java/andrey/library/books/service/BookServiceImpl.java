@@ -42,7 +42,8 @@ public class BookServiceImpl implements BookService {
                         authorRepository.findByFirstNameAndLastName(
                                 author.getFirstName(),
                                 author.getLastName()))
-                .filter(Objects::nonNull)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .collect(Collectors.toSet());
         existingAuthors.addAll(bookToSave.getAuthors());
         bookToSave.setAuthors(existingAuthors);
