@@ -20,7 +20,7 @@ databaseChangeLog:
                   name: id
                   type: bigint
                   constraints:
-                    primaryKey: true
+                    unique: true
               - column:
                   name: first_name
                   type: varchar(128)
@@ -44,7 +44,7 @@ databaseChangeLog:
             schemaName: public
             tableName: authors
             tablespace: pg_default
-            #unique: true
+            unique: true
         - createSequence:
             cacheSize: 381818
             cycle: false
@@ -53,3 +53,9 @@ databaseChangeLog:
             schemaName: public
             sequenceName: authors_sequence
             startValue: 1
+        - addPrimaryKey:
+            columnNames: first_name, last_name
+            constraintName: pk_author
+            schemaName: public
+            tableName: authors
+            validate: true
