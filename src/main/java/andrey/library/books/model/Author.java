@@ -16,6 +16,7 @@ import java.util.List;
 public class Author {
 
     @Id
+    @EqualsAndHashCode.Exclude
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authors_sequence")
     @SequenceGenerator(name = "authors_sequence", sequenceName = "authors_sequence", allocationSize = 1)
     Long id;
