@@ -1,6 +1,7 @@
 package andrey.library.books.service;
 
 import andrey.library.books.dto.BookDto;
+import andrey.library.books.exception.BookAlreadyExistsException;
 import andrey.library.books.exception.BookNotFoundException;
 import andrey.library.books.mapper.MapStructBookMapper;
 import andrey.library.books.model.Author;
@@ -31,12 +32,17 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto save(BookDto bookDto) {
+        booksRepository.findByTitle(bookDto.getTitle()).ifPresent(book -> {
+            throw new BookAlreadyExistsException(
+                    String.format("Book title already exists. Title: %s", bookDto.getTitle()));
+        });
         Book bookToSave = bookMapper.toBook(bookDto);
         Set<Author> existingAuthors = bookToSave.getAuthors().stream()
                 .map(author ->
                         authorRepository.findByFirstNameAndLastName(
                                 author.getFirstName(),
                                 author.getLastName()))
+                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
         existingAuthors.addAll(bookToSave.getAuthors());
         bookToSave.setAuthors(existingAuthors);

@@ -26,6 +26,7 @@ databaseChangeLog:
                   type: varchar(256)
                   constraints:
                     nullable: false
+                    unique: true
               - column:
                   name: quantity_in_stock
                   type: smallint
@@ -40,7 +41,7 @@ databaseChangeLog:
             schemaName: public
             tableName: books
             tablespace: pg_default
-            #unique: true
+            unique: true
         - createSequence:
             cacheSize: 381818
             cycle: false
