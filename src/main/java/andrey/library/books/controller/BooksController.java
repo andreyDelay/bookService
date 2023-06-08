@@ -7,10 +7,12 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Validated
 @RestController
 @RequestMapping("/books")
@@ -24,6 +26,7 @@ public class BooksController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto addBook(@RequestBody BookDto bookDto) {
+        log.info("Accepting POST http request for bookDto: {}", bookDto);
         return bookService.save(bookDto);
     }
 
@@ -31,6 +34,7 @@ public class BooksController {
     @ResponseStatus(HttpStatus.OK)
     public BookDto getBookByTitle(@Valid @Pattern(regexp = bookTitleRegExpPattern)
                                   @PathVariable String bookTitle) {
+        log.info("Accepting GET http request for book title: {}", bookTitle);
         return bookService.findByTitle(bookTitle);
     }
 
@@ -38,6 +42,7 @@ public class BooksController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBookByTitle(@Valid @Pattern(regexp = bookTitleRegExpPattern)
                                   @PathVariable String bookTitle) {
+        log.info("Accepting DELETE http request for book title: {}", bookTitle);
         bookService.deleteByTitle(bookTitle);
     }
 }
