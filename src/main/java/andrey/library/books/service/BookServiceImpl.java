@@ -73,5 +73,6 @@ public class BookServiceImpl implements BookService {
                         String.format("Book title already exists. Title: %s", title)));
         log.info("Deleting book from repository for specified title: {}", title);
         booksRepository.delete(book);
+        log.info("Book of title: \"{}\" successfully deleted.", title);
     }
 }
